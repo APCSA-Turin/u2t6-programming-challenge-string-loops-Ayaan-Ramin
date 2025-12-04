@@ -4,26 +4,22 @@ public class StringLoops {
 
    public StringLoops() { }
 
-   // WARM UP
-    // using a for loop remove all 'a' characters from input string
     public String removeA(String str) {
         String result = "";
         
         for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) != 'a') {
+            if (str.charAt(i) != 'a' && str.charAt(i) != 'A') {
                 result += str.charAt(i);
             }
         }
         return result;
     }
 
-    // WARM UP
-    // using a while loop remove all 'a' characters from input string
     public String removeA2(String str) {
         String result = "";
         int i = 0;
         while (i < str.length()) {
-            if (str.charAt(i) != 'a') {
+            if (str.charAt(i) != 'a' && str.charAt(i) != 'A') {
                 result += str.charAt(i);
             }
             i++;
@@ -31,27 +27,22 @@ public class StringLoops {
         return result;
     }
 
-    // WARM UP
-    // Reverse a string by counting down from the end to the start
     public String reverseString(String str) {
-        String reversed = "";
+        String result = "";
         for (int i = str.length() - 1; i >= 0; i--) {
-            reversed += str.charAt(i);
+            result += str.charAt(i);
         }
-        return reversed;
+        return result;
     }
 
-    // WARM UP
-    // Reverse a string by counting up from the start to the end
     public String reverseString2(String str) {
-        String reversed = "";
+        String result = "";
         for (int i = 0; i < str.length(); i++) {
-            reversed = str.charAt(i) + reversed;
+            result = str.charAt(i) + result;
         }
-        return reversed;
+        return result;
     }
 
-    // using a for loop
     public String replaceCharacterV1(String searchChar, String origStr, String replaceChar) {
         String result = "";
         for (int i = 0; i < origStr.length(); i++) {
@@ -64,7 +55,6 @@ public class StringLoops {
         return result;
     }
 
-    // using a while loop
     public String replaceCharacterV2(String searchChar, String origStr, String replaceChar) {
         String result = "";
         int i = 0;
@@ -81,58 +71,101 @@ public class StringLoops {
 
     public int countString(String searchString, String origString) {
         int count = 0;
-        int lastIndex = 0;
-        while (lastIndex != -1) {
-            lastIndex = origString.indexOf(searchString, lastIndex);
-            if (lastIndex != -1) {
+        for (int i = 0; i <= origString.length() - searchString.length(); i++) {
+            String sub = origString.substring(i, i + searchString.length());
+
+            if (sub.equals(searchString)) {
                 count++;
-                lastIndex += searchString.length();
             }
         }
         return count;
     }
 
     public String removeString(String searchString, String origString) {
+        if (searchString.isEmpty()) {
+            return origString;
+        }
+
         String result = origString;
-        int index = result.indexOf(searchString);
-        while (index != -1) {
-            result = result.substring(0, index) + result.substring(index + searchString.length());
-            index = result.indexOf(searchString);
+        boolean foundMatch = true;
+
+        while (foundMatch) {
+            String temp = "";
+            int i = 0;
+            foundMatch = false;
+
+            while (i < result.length()) {
+                if (i + searchString.length() <= result.length() && result.substring(i, i + searchString.length()).equals(searchString)) {
+                    foundMatch = true; 
+                    i += searchString.length();
+                } else {
+                    temp += result.charAt(i);
+                    i++;
+                }
+            }
+            result = temp;
         }
         return result;
     }
 
+
+
+
     public void commaSeparated(int fromNum, int toNum) {
-        String result = "";
-        for (int i = fromNum; i <= toNum; i++) {
-            result += i;
-            if (i < toNum) {
-                result += ",";
+        int step = (fromNum <= toNum) ? 1 : -1;
+        int current = fromNum;
+
+        while (true) {
+            System.out.print(current);
+
+            if (current == toNum) {
+                break; 
             }
+
+            System.out.print(", "); 
+
+            current += step;
         }
-        System.out.println(result);
+        System.out.println();
     }
 
     public boolean isPalindrome(String myString) {
         String cleanedString = "";
         for (int i = 0; i < myString.length(); i++) {
-            char c = myString.charAt(i);
-            if (Character.isLetterOrDigit(c)) {
-                cleanedString += Character.toLowerCase(c);
+            char currentChar = myString.charAt(i);
+            if (currentChar != ' ') {
+                cleanedString += Character.toLowerCase(currentChar);
             }
         }
 
-        String reversedCleanedString = "";
-        for (int i = cleanedString.length() - 1; i >= 0; i--) {
-            reversedCleanedString += cleanedString.charAt(i);
+        int start = 0;
+        int end = cleanedString.length() - 1;
+
+        while (start < end) {
+            if (cleanedString.charAt(start) != cleanedString.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
         }
 
-        return cleanedString.equals(reversedCleanedString);
+        return true; 
     }
 
+    
     public void multiPrint(String toPrint, int num) {
-        for (int i = 0; i < num; i++) {
-            System.out.println(toPrint);
+        if (num <= 0) {
+            System.out.println("[]");
+            return;
         }
+
+        System.out.print("[");
+        for (int i = 0; i < num; i++) {
+            System.out.print(toPrint);
+            if (i < num - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println("]");
     }
 }
